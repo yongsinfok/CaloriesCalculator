@@ -21,5 +21,6 @@
       "source": "/(.*)",
       "destination": "/frontend/$1"
     }
-  ]
+  ],
+  "outputDirectory": "frontend"
 }
