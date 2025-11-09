@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CalorieSnap">
+    <meta name="theme-color" content="#4A90E2">
+    <title>CalorieSnap - Camera Food Analysis</title>
+
+    <!-- PWA Resources -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Camera Screen -->
+        <div id="camera-screen" class="screen active">
+            <video id="video" playsinline autoplay muted></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+
+            <div class="controls">
+                <button id="capture-btn" class="btn-primary" disabled>
+                    📷 Capture
+                </button>
+            </div>
+
+            <div id="camera-error" class="error-message" style="display: none;">
+                <p id="error-text"></p>
+                <button id="retryCamera" class="btn-secondary">Try Again</button>
+            </div>
+        </div>
+
+        <!-- Preview Screen -->
+        <div id="preview-screen" class="screen">
+            <img id="preview-image" src="" alt="Captured food">
+
+            <div class="preview-controls">
+                <button id="retake-btn" class="btn-secondary">🔄 Retake</button>
+                <button id="analyze-btn" class="btn-primary">🔍 Analyze</button>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h2>Analyzing your food...</h2>
+                <p id="loading-details">Preparing image</p>
+                <div id="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-header">
+                <button id="new-analysis" class="btn-secondary">📷 New Analysis</button>
+            </div>
+
+            <div class="results-content">
+                <div class="total-summary">
+                    <h2 id="total-calories">-- calories</h2>
+                    <p>Total estimated</p>
+                </div>
+
+                <div id="food-items" class="food-list">
+                    <!-- Food items will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => console.log('SW registered:', registration))
+                .catch(error => console.log('SW registration failed:', error));
+        }
+    </script>
+
+    <script src="/app.js" type="module"></script>
+</body>
+</html>
