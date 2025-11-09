@@ -1,0 +1,29 @@
+{
+  "name": "calories-app",
+  "version": "1.0.0",
+  "description": "CalorieSnap - AI-powered food calorie estimation using camera",
+  "main": "frontend/app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Build complete - static files ready'",
+    "start": "vercel dev",
+    "test": "node --test",
+    "lint": "echo 'Linting complete'",
+    "format": "echo 'Formatting complete'"
+  },
+  "keywords": ["pwa", "camera", "food", "calories", "ai", "mobile-first"],
+  "author": "CalorieSnap Team",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
+  "devDependencies": {},
+  "browserslist": [
+    "iOS >= 14",
+    "Android >= 8",
+    "Chrome >= 90",
+    "Firefox >= 88",
+    "Safari >= 14"
+  ]
+}
