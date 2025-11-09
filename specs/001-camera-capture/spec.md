@@ -5,6 +5,16 @@
 **Status**: Draft
 **Input**: User description: "Goals: User can get a calorie estimate within 10 seconds of taking a photo. The estimate must attempt to differentiate cooking methods (fried vs. steamed). User Stories (US) & Acceptance Criteria: US-1 (Camera): User wants to see a live camera feed. | AC: App requests permission and shows a <video> feed. US-2 (Capture): User wants to tap a button to capture the frame. | AC: The current frame is drawn onto a <canvas>. US-3 (Analyze): User wants to submit the photo. | AC: The canvas image is sent to the backend. A loading spinner is shown. US-4 (Result): User wants to see a list of food items and total calories. | AC: The frontend parses the JSON response and displays the results. US-5 (Security): The Google API key must never be visible in the frontend. | AC: API key is only referenced in the @api-agent-gemini module."
 
+## Clarifications
+
+### Session 2025-11-09
+
+- Q: Error Handling Scope → A: Analysis retry only (network errors, AI failures)
+- Q: Confidence Threshold Requirements → D: 90% confidence threshold (very conservative, high precision)
+- Q: Multiple Food Items Handling → B: Up to 5 distinct food items with individual analysis
+- Q: Cooking Method Coverage → C: Essential methods: fried, baked, grilled, steamed, raw
+- Q: Loading Progress Granularity → B: Time estimate + partial results preview (5-second milestone)
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Live Camera Feed (Priority: P1)
@@ -50,7 +60,7 @@ User submits the captured photo for AI-powered food analysis and calorie estimat
 **Acceptance Scenarios**:
 
 1. **Given** Photo is captured, **When** User submits for analysis, **Then** Loading spinner displays and canvas image is sent to backend
-2. **Given** Analysis is in progress, **When** Processing takes longer than 5 seconds, **Then** Progress indicator updates with time estimate
+2. **Given** Analysis is in progress, **When** Processing takes longer than 5 seconds, **Then** Progress indicator displays time estimate with partial results preview
 3. **Given** Network error occurs, **When** Analysis fails, **Then** Error message displays with retry option
 
 ---
@@ -66,7 +76,7 @@ User sees the analysis results including identified food items, cooking methods,
 **Acceptance Scenarios**:
 
 1. **Given** Analysis completes successfully, **When** Results are received, **Then** List of food items displays with individual calorie counts
-2. **Given** Results are displayed, **When** Food items are shown, **Then** Cooking method (fried, steamed, baked, etc.) is indicated for each item
+2. **Given** Results are displayed, **When** Food items are shown, **Then** Cooking method (essential methods: fried, baked, grilled, steamed, raw) is indicated for each item
 3. **Given** Results are displayed, **When** Viewing summary, **Then** Total estimated calories for all items combined is prominently displayed
 4. **Given** Multiple food items identified, **When** Results are shown, **Then** Confidence levels are displayed for each identification
 
@@ -91,10 +101,11 @@ System maintains security by keeping API keys secure on the backend.
 ### Edge Cases
 
 - What happens when user captures photo with no food visible?
-- How does system handle multiple food items in single photo?
+- How does system handle multiple food items in single photo? (Up to 5 distinct items with individual analysis)
 - What happens when AI cannot identify food items with confidence?
 - How does system handle poor lighting conditions in photos?
 - What happens when backend AI service is unavailable?
+- Focus: Analysis retry for network errors and AI failures only (MVP scope)
 
 ## Requirements *(mandatory)*
 
@@ -105,19 +116,19 @@ System maintains security by keeping API keys secure on the backend.
 - **FR-003**: System MUST allow user to capture current camera frame to canvas
 - **FR-004**: System MUST allow photo retaking before analysis
 - **FR-005**: System MUST send captured image to backend for analysis
-- **FR-006**: System MUST display loading indicator during AI processing (max 10 seconds)
+- **FR-006**: System MUST display loading indicator during AI processing (time estimate + partial results preview at 5-second milestone)
 - **FR-007**: System MUST display food items with individual calorie estimates
-- **FR-008**: System MUST display cooking method identification for each food item
+- **FR-008**: System MUST display cooking method identification for each food item (essential methods: fried, baked, grilled, steamed, raw)
 - **FR-009**: System MUST calculate and display total calorie count
-- **FR-010**: System MUST display confidence levels for food identifications
+- **FR-010**: System MUST display confidence levels for food identifications (90% minimum threshold for inclusion)
 - **FR-011**: System MUST keep Google AI API key secure on backend only
 - **FR-012**: System MUST handle network errors gracefully with retry options
 - **FR-013**: System MUST provide user feedback when food cannot be identified
 
 ### Key Entities *(include if feature involves data)*
 
-- **Food Item**: Represents individual food identified in photo with name, calorie count, cooking method, and confidence score
-- **Analysis Result**: Container for all identified food items with total calorie summary and processing metadata
+- **Food Item**: Represents individual food identified in photo with name, calorie count, cooking method (essential methods: fried, baked, grilled, steamed, raw), and confidence score (90% minimum threshold for identification)
+- **Analysis Result**: Container for all identified food items (up to 5 distinct items) with total calorie summary and processing metadata
 - **Captured Image**: Base64-encoded photo data sent from frontend to backend for analysis
 - **Error State**: Failure condition with retry capability and user-friendly messaging
 
