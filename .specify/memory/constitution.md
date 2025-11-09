@@ -1,50 +1,101 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- Sync Impact Report -->
+<!-- Version change: 0.0.0 → 1.0.0 -->
+<!-- Modified principles: None (initial creation) -->
+<!-- Added sections: All sections (Core Principles, Architecture & Security, Development Standards, Governance) -->
+<!-- Removed sections: None -->
+<!-- Templates requiring updates: ✅ all templates reviewed and aligned -->
+<!-- Follow-up TODOs: None -->
+
+# CalorieSnap Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Mobile-First PWA Architecture
+Mobile-first design is mandatory. The application must be implemented as a Progressive Web App with camera-first UX. Single-purpose interface focused on food identification and calorie estimation. Clear loading indicators required for all AI interactions.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Security Separation
+The Google AI API Key MUST remain secure in the @api-agent-gemini module (Vercel Environment Variable) and MUST NEVER be exposed to the client-side. API communication between frontend and backend must be structured JSON.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Zero-Cost Foundation
+V1.0 must be implemented using free-tier services and APIs. Future scaling may require migration to paid AI APIs, but core functionality must work without initial costs.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. AI-Powered Food Recognition
+Core functionality centers on AI-based food identification from camera images. Calorie estimates must account for cooking methods and portion sizes. Results must be displayed in clear, user-friendly format.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Modular Communication
+The @frontend-camera-pwa and @api-agent-gemini modules communicate via structured JSON API. Frontend sends Base64 image data; backend returns structured calorie report with food items, calorie counts, and confidence scores.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Architecture & Security
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### Technology Stack
+- Frontend: Progressive Web App with camera access APIs
+- Backend: Vercel Functions (serverless)
+- AI API: Google AI Gemini Vision (free tier)
+- Communication: JSON API with Base64 image encoding
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### Data Flow Requirements
+1. Frontend captures image via camera API
+2. Image converted to Base64 and sent to backend
+3. Backend securely calls Google AI API with environment-stored key
+4. AI response parsed into structured calorie report
+5. Report returned to frontend for display
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### Privacy & Security
+- No user images stored permanently unless explicitly opted-in
+- API key never exposed to client-side code
+- All AI processing happens server-side
+- Minimal data collection, clear privacy policy required
+
+## Development Standards
+
+### PWA Requirements
+- Must work offline for basic functionality
+- Installable on mobile devices
+- Camera access must work on both iOS and Android
+- Loading states for all AI interactions
+- Responsive design for various screen sizes
+
+### API Contract
+```json
+// Request (Frontend → Backend)
+{
+  "image": "base64-encoded-image-data"
+}
+
+// Response (Backend → Frontend)
+{
+  "foods": [
+    {
+      "name": "food-item",
+      "calories": number,
+      "confidence": number,
+      "cooking_method": "method"
+    }
+  ],
+  "total_calories": number,
+  "processing_time_ms": number
+}
+```
+
+### Quality Standards
+- Camera capture must work in various lighting conditions
+- Calorie estimates within reasonable accuracy range
+- Error handling for failed AI requests
+- Graceful degradation when AI is unavailable
+- Performance: image analysis completes within 10 seconds
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices and documentation. Amendments require:
+1. Documented proposal with specific changes
+2. Approval through project maintainers
+3. Updated version number following semantic versioning
+4. Migration plan for any breaking changes
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+All development work must verify compliance with:
+- Mobile-first PWA principles
+- Security separation requirements
+- Zero-cost foundation constraints
+- Modular communication patterns
+
+**Version**: 1.0.0 | **Ratified**: 2025-11-09 | **Last Amended**: 2025-11-09
