@@ -116,7 +116,10 @@ System maintains security by keeping API keys secure on the backend.
 - **FR-003**: System MUST allow user to capture current camera frame to canvas
 - **FR-004**: System MUST allow photo retaking before analysis
 - **FR-005**: System MUST send captured image to backend for analysis
-- **FR-006**: System MUST display loading indicator during AI processing (time estimate + partial results preview at 5-second milestone)
+- **FR-006**: System MUST display loading indicator during AI processing with:
+  - Immediate feedback within 3 seconds of submission
+  - Time estimate display at 5-second milestone if analysis still processing
+  - Total processing time target: 10 seconds (server-side processing only)
 - **FR-007**: System MUST display food items with individual calorie estimates
 - **FR-008**: System MUST display cooking method identification for each food item (essential methods: fried, baked, grilled, steamed, raw)
 - **FR-009**: System MUST calculate and display total calorie count
@@ -136,9 +139,11 @@ System maintains security by keeping API keys secure on the backend.
 
 ### Measurable Outcomes
 
-- **SC-001**: Users can complete full photo capture and analysis workflow within 15 seconds total
+- **SC-001**: Users can complete full photo capture and analysis workflow within 15 seconds total (includes user actions: camera permission, capture decision, analysis submission)
 - **SC-002**: 90% of clear food photos return at least one identified food item
-- **SC-003**: Analysis completes within 10 seconds for 95% of requests
+- **SC-003**: AI analysis processing completes within 10 seconds for 95% of requests (measured from image submission to results received, excludes user interaction time)
+- **SC-003a**: Users should see visible progress within 3 seconds of submission
+- **SC-003b**: 5-second milestone should show time estimate as required in FR-006
 - **SC-004**: Zero occurrences of API key exposure in frontend code or network traffic
 - **SC-005**: Users can successfully retry failed analysis attempts in under 3 seconds
 - **SC-006**: Cooking method identification accuracy improves calorie estimates by at least 15% over basic recognition

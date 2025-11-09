@@ -32,6 +32,13 @@ Implementation of CalorieSnap - a mobile-first Progressive Web App for AI-powere
 - API Key: Google AI key only referenced in @api-agent-gemini backend
 - JSON Communication: structured API contract defined
 - No client-side exposure: confirmed in architecture
+- **Security Validation**: API key MUST never appear in:
+  - Frontend JavaScript code (minified or unminified)
+  - Frontend HTML/JSON responses
+  - Network request payloads from frontend
+  - Browser developer tools output
+- **Implementation Requirement**: All API key references MUST use `process.env.GOOGLE_AI_API_KEY` pattern only in serverless functions
+- **Testing Requirement**: Automated security validation in T046 to scan all frontend files for API key patterns
 
 **III. Zero-Cost Foundation** ✅
 - Vercel Functions: free tier usage
